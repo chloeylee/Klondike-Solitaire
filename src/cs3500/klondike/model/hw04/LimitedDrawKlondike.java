@@ -8,6 +8,7 @@ import cs3500.klondike.model.hw02.Suit;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,8 @@ public class LimitedDrawKlondike implements KlondikeModel {
     this.cascadePiles = new ArrayList<>();
     this.foundationPiles = new ArrayList<>(); // Assuming 4 foundation piles
     this.numDraw = 3; // Default value for the number of draw cards
+    this.cardDiscardMap = new HashMap<Card, Integer>();
+    initCardDiscardedMaps();
   }
 
   /**
@@ -54,7 +57,7 @@ public class LimitedDrawKlondike implements KlondikeModel {
    */
   void initCardDiscardedMaps() {
     for (Card card : this.deck) {
-      this.cardDiscardMap.put(card, 0);
+      this.cardDiscardMap.put(card, new Integer(0));
     }
   }
 
@@ -198,7 +201,6 @@ public class LimitedDrawKlondike implements KlondikeModel {
       card.turnCardUp();
       this.drawPile.add(card);
     }
-    initCardDiscardedMaps();
     this.numDraw = numDraw;
 
     this.gameStarted = true;
@@ -452,9 +454,9 @@ public class LimitedDrawKlondike implements KlondikeModel {
     int cardDiscardValue = this.cardDiscardMap.get(card);
     cardDiscardValue++;
     this.cardDiscardMap.put(card, cardDiscardValue);
-    if (cardDiscardValue >= this.numTimesRedrawAllowed) {
+    if (cardDiscardValue > this.numTimesRedrawAllowed) {
       this.drawPile.remove(card);
-    } else if (cardDiscardValue < this.numTimesRedrawAllowed) {
+    } else {
       this.drawPile.remove(card);
       this.deck.add(card);
       this.drawPile.add(this.deck.get(0));
