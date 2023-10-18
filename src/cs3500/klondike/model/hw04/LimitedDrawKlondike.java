@@ -650,7 +650,7 @@ public class LimitedDrawKlondike implements KlondikeModel {
    * NOTE: Users of this method should not modify the resulting list.
    *
    * @return the ordered list of available draw cards (i.e. first element of this list
-   * is the first one to be drawn)
+   *         is the first one to be drawn)
    * @throws IllegalStateException if the game hasn't been started yet
    */
   @Override
