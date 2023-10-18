@@ -290,8 +290,8 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
     if (destPile < 0 || destPile >= this.cascadePiles.size()) {
       throw new IllegalArgumentException("Invalid pile value");
     }
-    if (this.drawPile.isEmpty() || this.deck.isEmpty()) {
-      throw new IllegalStateException("Deck or draw pile is empty");
+    if (this.drawPile.isEmpty()) {
+      throw new IllegalStateException("Draw pile is empty");
     }
 
     Card draw = drawPile.get(0);

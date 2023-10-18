@@ -109,7 +109,7 @@ public class KlondikeTextualView implements TextualView {
         } else if (!model.isCardVisible(col, row)) {
           sb.append("  ? ");
         } else {
-          sb.append(String.format("%4s", model.getCardAt(col, row).toString()));
+          sb.append(String.format("%-4s", model.getCardAt(col, row).toString()));
         }
       }
       sb.append("\n");

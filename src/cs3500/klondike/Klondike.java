@@ -16,15 +16,15 @@ public class Klondike {
   /**
    * entry point for the klondike program.
    * @param args the inputted arguments
-   * @throws IOException if the appendable fails
+   * @throws IllegalArgumentException if any invalid input is given
    */
   public static void main(String[] args) {
-
-// read arguments
     GameType gameType;
-    Integer numPiles = 0, defaultPiles = 7;
-    Integer numDraws = 0, defaultDraws = 3;
-    Integer maxReuse = 0;
+    int numPiles = 0;
+    int defaultPiles = 7;
+    int numDraws = 0;
+    int defaultDraws = 3;
+    int maxReuse = 0;
     if (args.length == 0) {
       gameType = GameType.BASIC;
       numPiles = defaultPiles;
@@ -71,20 +71,17 @@ public class Klondike {
   /**
    * Prints the usage of the game.
    */
-  private static void printGameUsage()
-  {
+  private static void printGameUsage() {
     System.out.print("Invalid command line arguments.\n");
-    System.out.print("basic produces a basic game of solitaire with default number of cascade" +
-            " piles and visible draw cards\n");
-    System.out.print("basic 7 3 achieves the same thing, but explicitly sets the size of the" +
-            " game.\n");
-    System.out.print("limited 3 6 2 produces a game of limited-draw solitaire, whose draw pile" +
-            " can be used 3 times, with six cascade piles and 2 visible draw cards\n");
-    System.out.print("whitehead 8 produces a Whitehead Klondike game with 8 cascade piles and" +
-            " the default number of visible draw cards\n");
-    System.out.print("whitehead 7 8 produces a Whitehead Klondike game with 7 cascade piles and" +
-            " 8 visible draw cards\n");
+    System.out.print("basic produces a basic game of solitaire with default number of cascade"
+            + " piles and visible draw cards\n");
+    System.out.print("basic 7 3 achieves the same thing, but explicitly sets the size of the"
+            + " game.\n");
+    System.out.print("limited 3 6 2 produces a game of limited-draw solitaire, whose draw pile"
+            + " can be used 3 times, with six cascade piles and 2 visible draw cards\n");
+    System.out.print("whitehead 8 produces a Whitehead Klondike game with 8 cascade piles and"
+            + " the default number of visible draw cards\n");
+    System.out.print("whitehead 7 8 produces a Whitehead Klondike game with 7 cascade piles and"
+            + " 8 visible draw cards\n");
   }
-
-
 }
