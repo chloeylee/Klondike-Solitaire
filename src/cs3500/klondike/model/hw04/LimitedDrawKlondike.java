@@ -26,7 +26,7 @@ public class LimitedDrawKlondike implements KlondikeModel {
   private int numDraw;
   private boolean gameStarted;
   private Map<Card, Integer> cardDiscardMap;
-  private final int numTimesRedrawAllowed;
+  private int numTimesRedrawAllowed;
 
   /**
    * Constructs a {@code LimitedDrawKlondike} object.
@@ -193,16 +193,12 @@ public class LimitedDrawKlondike implements KlondikeModel {
       this.foundationPiles.add(new ArrayList<>());
     }
 
-    this.drawPile.clear();
-
     List<Card> tempDeck = new ArrayList<>(this.deck);
     for (Card card : tempDeck.subList(0, Math.min(numDraw, tempDeck.size()))) {
       this.deck.remove(card);
       card.turnCardUp();
       this.drawPile.add(card);
     }
-    this.numDraw = numDraw;
-
     this.gameStarted = true;
   }
 
@@ -656,7 +652,11 @@ public class LimitedDrawKlondike implements KlondikeModel {
   @Override
   public List<Card> getDrawCards() {
     if (gameStarted) {
-      return this.drawPile.subList(0, this.numDraw);
+      if (this.drawPile.isEmpty()) {
+        return new ArrayList<>();
+      } else {
+        return this.drawPile.subList(0, this.numDraw);
+      }
     }
     throw new IllegalStateException("Game not started");
   }

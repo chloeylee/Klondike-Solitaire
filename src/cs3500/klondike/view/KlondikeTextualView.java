@@ -57,7 +57,7 @@ public class KlondikeTextualView implements TextualView {
    * @return A string representation of the score.
    */
   public String printScore() {
-    return "Score: " + model.getScore();
+    return "Score: " + model.getScore() + "/n";
   }
 
   /**
@@ -103,11 +103,11 @@ public class KlondikeTextualView implements TextualView {
     for (int row = 0; row < rowMax; row++) {
       for (int col = 0; col < model.getNumPiles(); col++) {
         if (row == 0 && 0 == model.getPileHeight(col)) {
-          sb.append("  X ");
+          sb.append(" X  ");
         } else if (row >= model.getPileHeight(col)) {
           sb.append("    ");
         } else if (!model.isCardVisible(col, row)) {
-          sb.append("  ? ");
+          sb.append(" ?  ");
         } else {
           sb.append(String.format("%-4s", model.getCardAt(col, row).toString()));
         }
@@ -128,14 +128,13 @@ public class KlondikeTextualView implements TextualView {
    */
   @Override
   public String toString() {
-    return this.printDrawCards() + "\n" + this.printFoundationPiles() + "\n" + this.printCascades()
-            + "\n";
+    return this.printDrawCards() + "\n" + this.printFoundationPiles() + "\n" + this.printCascades();
   }
 
   @Override
   public void render() throws IOException {
     try {
-      ap.append(this + "\n");
+      ap.append(this.toString());
     } catch (IOException e) {
       throw new IOException("Render failed");
     }

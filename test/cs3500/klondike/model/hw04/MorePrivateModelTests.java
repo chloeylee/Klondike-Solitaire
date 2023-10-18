@@ -17,9 +17,9 @@ import cs3500.klondike.model.hw02.KlondikeModel;
 public class MorePrivateModelTests {
   // test if new valid whitehead mpp work
 
-  // test invalid whitehead constructor
+  // test invalid whitehead and limited constructor
 
-  // test if new valid whitehead mpf work
+  // test if new valid whitehead mpp work
 
   /**
    * Finds a specific card by its name in a list of cards.

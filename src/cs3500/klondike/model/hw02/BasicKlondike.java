@@ -296,6 +296,19 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
 
     Card draw = drawPile.get(0);
     List<Card> endPile = this.cascadePiles.get(destPile);
+    if (endPile.isEmpty()) {
+      if (draw.getRank().contains("K")) {
+        endPile.add(draw);
+        this.drawPile.remove(draw);
+        if (!deck.isEmpty()) {
+          deck.get(0).turnCardUp();
+          this.drawPile.add(deck.get(0));
+          deck.remove(0);
+        }
+      } else {
+        throw new IllegalStateException("This is an invalid move");
+      }
+    }
     if (this.validCascadeMove(draw, endPile.get(endPile.size() - 1))) {
       endPile.add(draw);
       this.drawPile.remove(draw);
@@ -409,7 +422,7 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
    * Discards the topmost draw-card.
    *
    * @throws IllegalStateException if the game hasn't been started yet
-   * @throws IllegalStateException if move is not allowable
+   * @throws IllegalStateException if move is not allowable (draw pile empty)
    */
   @Override
   public void discardDraw() {
@@ -439,9 +452,9 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
   public int getNumRows() {
     if (gameStarted) {
       int maxRow = 0;
-      for (int i = 0; i < cascadePiles.size(); i++) {
-        if (cascadePiles.get(i).size() > maxRow) {
-          maxRow = cascadePiles.get(i).size();
+      for (ArrayList<Card> cascadePile : cascadePiles) {
+        if (cascadePile.size() > maxRow) {
+          maxRow = cascadePile.size();
         }
       }
       return maxRow;
