@@ -289,8 +289,7 @@ public abstract class AbstractKlondike implements KlondikeModel {
       } else {
         throw new IllegalStateException("This is an invalid move");
       }
-    }
-    if (this.validCascadeMove(draw, endPile.get(endPile.size() - 1))) {
+    } else if (this.validCascadeMove(draw, endPile.get(endPile.size() - 1))) {
       endPile.add(draw);
       this.drawPile.remove(draw);
       if (!deck.isEmpty()) {

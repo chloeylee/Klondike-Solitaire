@@ -214,17 +214,16 @@ public class WhiteheadKlondike extends AbstractKlondike {
     if (movingPile.get(0).isCardFacedUp() && end.isCardFacedUp()) {
       if (movingPile.size() == 1) {
         return movingPile.get(0).sameColor(end) && end.rankHigher(movingPile.get(0));
-      }
-      if (movingPile.size() > 1) {
+      } else if (movingPile.size() > 1) {
         for (int c = 0; c < movingPile.size() - 1; c++) {
           if (!movingPile.get(c).getSuit().equals(movingPile.get(c + 1).getSuit())) {
-            return false; // Cards have different suits
+            return false; // card has diff suit from the next
           }
         }
         return true; // All cards have the same suit
       }
     }
-    throw new IllegalArgumentException("Can't move card on non-visible card");
+    throw new IllegalArgumentException("Can't move card onto non-visible card");
   }
 
   /**
@@ -266,80 +265,6 @@ public class WhiteheadKlondike extends AbstractKlondike {
   }
 
   /**
-   * Moves the top card of the given pile to the requested foundation pile.
-   *
-   * @param srcPile        the 0-based index (from the left) of the pile to move a card
-   * @param foundationPile the 0-based index (from the left) of the foundation pile to
-   *                       place the card
-   * @throws IllegalStateException    if the game hasn't been started yet
-   * @throws IllegalArgumentException if either pile number is invalid
-   * @throws IllegalStateException    if the source pile is empty or if the move is not
-   *                                  allowable
-   */
-  @Override
-  public void moveToFoundation(int srcPile, int foundationPile) {
-    if (gameStarted) {
-      if (srcPile > this.cascadePiles.size() - 1 || srcPile < 0
-              || foundationPile > this.foundationPiles.size() - 1 || foundationPile < 0) {
-        throw new IllegalArgumentException("Invalid pile value");
-      }
-      if (this.cascadePiles.get(srcPile).isEmpty()) {
-        throw new IllegalStateException("Source pile is empty");
-      }
-
-      Card moving = this.cascadePiles.get(srcPile).get(this.cascadePiles.get(srcPile).size() - 1);
-      List<Card> foundation = this.foundationPiles.get(foundationPile);
-      if (this.validMoveToFoundation(moving, foundation)) {
-        foundation.add(moving);
-        this.cascadePiles.get(srcPile).remove(moving);
-
-        if (!this.cascadePiles.get(srcPile).isEmpty()) {
-          this.cascadePiles.get(srcPile).get(this.cascadePiles.get(srcPile).size() - 1)
-                  .turnCardUp();
-        }
-      } else {
-        throw new IllegalStateException("This is an invalid move");
-      }
-    } else {
-      throw new IllegalStateException("Game not started");
-    }
-  }
-
-  /**
-   * Moves the topmost draw-card directly to a foundation pile.
-   *
-   * @param foundationPile the 0-based index (from the left) of the foundation pile to
-   *                       place the card
-   * @throws IllegalStateException    if the game hasn't been started yet
-   * @throws IllegalArgumentException if the foundation pile number is invalid
-   * @throws IllegalStateException    if there are no draw cards or if the move is not
-   *                                  allowable
-   */
-  @Override
-  public void moveDrawToFoundation(int foundationPile) {
-    if (!gameStarted) {
-      throw new IllegalStateException("Game not started");
-    }
-    if (foundationPile < 0 || foundationPile > this.foundationPiles.size() - 1) {
-      throw new IllegalArgumentException("Invalid foundation pile index");
-    }
-    if (this.drawPile.isEmpty()) {
-      throw new IllegalStateException("Draw pile is empty");
-    }
-
-    Card moving = this.drawPile.get(0);
-    List<Card> foundation = this.foundationPiles.get(foundationPile);
-
-    if (this.validMoveToFoundation(moving, foundation) || (foundation.isEmpty()
-            && moving.getRank().contains("A"))) {
-      foundation.add(moving);
-      this.drawPile.remove(moving);
-    } else {
-      throw new IllegalStateException("This is an invalid move");
-    }
-  }
-
-  /**
    * Checks if moving a card to a foundation pile is a valid move in the Klondike game.
    * For the move to be valid, the following conditions must be met:
    *
@@ -355,7 +280,8 @@ public class WhiteheadKlondike extends AbstractKlondike {
     if (!foundation.isEmpty()) {
       return card.rankHigher(foundation.get(foundation.size() - 1))
               && card.getSuit().equals(foundation.get(foundation.size() - 1).getSuit());
+    } else {
+      return card.toString().contains("A");
     }
-    return card.toString().contains("A");
   }
 }

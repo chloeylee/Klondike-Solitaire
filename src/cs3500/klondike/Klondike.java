@@ -39,6 +39,7 @@ public class Klondike {
           }
         } catch (IllegalArgumentException e) {
           System.out.println("invalid number of inputs for custom basic game");
+          throw new IllegalArgumentException("invalid number of inputs for custom basic game");
         }
         break;
       case "limited":
@@ -59,6 +60,8 @@ public class Klondike {
           }
         } catch (IllegalArgumentException e) {
           System.out.println("invalid number of inputs for custom limited discard game");
+
+          throw new IllegalArgumentException("invalid number of inputs for custom limited game");
         }
         break;
       case "whitehead":
@@ -83,6 +86,7 @@ public class Klondike {
           }
         } catch (IllegalArgumentException e) {
           System.out.println("invalid number of inputs for custom whitehead game");
+          throw new IllegalArgumentException("invalid number of inputs for custom whitehead game");
         }
 
         break;

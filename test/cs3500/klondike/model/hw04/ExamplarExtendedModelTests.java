@@ -1,4 +1,4 @@
-package cs3500.klondike;
+package cs3500.klondike.model.hw04;
 
 import org.junit.Assert;
 import org.junit.Before;

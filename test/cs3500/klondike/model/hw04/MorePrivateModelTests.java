@@ -37,6 +37,24 @@ public class MorePrivateModelTests {
   }
 
   @Test
+  public void testIsValidMPPWhitehead() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));
+    deck.add(getCard("A♠"));
+    deck.add(getCard("2♣"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("3♣"));
+    deck.add(getCard("3♠"));
+
+    WhiteheadKlondike game = new WhiteheadKlondike();
+
+    game.startGame(deck, false, 2, 1);
+    game.movePile(0, 1, 1);
+
+    Assert.assertEquals(3, game.getPileHeight(1));
+  }
+
+  @Test
   public void testAllCardsAreFaceUpWhitehead() {
     List<Card> deck = new ArrayList<>();
     deck.add(getCard("A♣"));
@@ -48,6 +66,22 @@ public class MorePrivateModelTests {
     game.startGame(deck, false, 2, 1);
 
     Assert.assertTrue(game.isCardVisible(1, 0));
+  }
+
+  @Test
+  public void testValidCascadeMoveMultipleCardsWhitehead() {
+    List<Card> movingPile = new ArrayList<>();
+    movingPile.add(getCard("2♡"));
+    movingPile.add(getCard("A♡"));
+    movingPile.get(0).turnCardUp();
+    movingPile.get(1).turnCardUp();
+
+    Card endCard = getCard("3♢");
+    endCard.turnCardUp();
+
+    WhiteheadKlondike game = new WhiteheadKlondike();
+
+    Assert.assertTrue(game.validCascadeMove(movingPile, endCard));
   }
 
   @Test
