@@ -13,3 +13,4 @@ vertically. My apologies.
 
 Changes Made to Klondike Pt 2.
 1. made a ton of helpers for the controller for any repeated code (i.e. throwing exceptions)
+2. deleted a basic klondike constructor that was never used (took in a deck)

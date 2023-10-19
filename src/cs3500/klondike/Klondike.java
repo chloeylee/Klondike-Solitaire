@@ -1,6 +1,7 @@
 package cs3500.klondike;
 
 import java.io.InputStreamReader;
+
 import cs3500.klondike.controller.KlondikeController;
 import cs3500.klondike.controller.KlondikeTextualController;
 import cs3500.klondike.model.hw02.KlondikeModel;
@@ -24,10 +25,9 @@ public class Klondike {
     switch (args[0]) {
       case "basic":
         if (args.length == 1) {
-          KlondikeCreator.create(GameType.BASIC).startGame(KlondikeCreator.create(GameType.BASIC)
-                  .getDeck(), true, 7, 3);
+          startDefaultGameType(GameType.BASIC);
           initController().playGame(KlondikeCreator.create(GameType.BASIC),
-                  KlondikeCreator.create(GameType.BASIC).getDeck(), true,7, 3);
+                  KlondikeCreator.create(GameType.BASIC).getDeck(), true, 7, 3);
         } else if (args.length == 3) {
           KlondikeCreator.create(GameType.BASIC).startGame(KlondikeCreator.create(GameType.BASIC)
                           .getDeck(), true, Integer.parseInt(args[1]),
@@ -41,25 +41,25 @@ public class Klondike {
         break;
       case "limited":
         if (args.length == 1) {
-          KlondikeCreator.create(GameType.LIMITED).startGame(KlondikeCreator.create(GameType
-                  .LIMITED).getDeck(), true, 7, 3);
+          startDefaultGameType(GameType.LIMITED);
           initController().playGame(KlondikeCreator.create(GameType.LIMITED),
-                  KlondikeCreator.create(GameType.LIMITED).getDeck(), true,7, 3);
+                  KlondikeCreator.create(GameType.LIMITED).getDeck(), true, 7, 3);
         } else if (args.length == 4) {
-          KlondikeModel customLimited  = new LimitedDrawKlondike(Integer.parseInt(args[1]));
+          KlondikeModel customLimited = new LimitedDrawKlondike(Integer.parseInt(args[1]));
           customLimited.startGame(KlondikeCreator.create(GameType.LIMITED).getDeck(), true,
                   Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-          initController().playGame(customLimited, KlondikeCreator.create(GameType.LIMITED).getDeck(),
-                  true, Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+          initController().playGame(customLimited, KlondikeCreator.create(GameType.LIMITED)
+                          .getDeck(), true, Integer.parseInt(args[2]),
+                  Integer.parseInt(args[3]));
         } else {
           throw new IllegalArgumentException("Invalid number of inputs for limited game");
         }
         break;
       case "whitehead":
         if (args.length == 1) {
-          KlondikeCreator.create(GameType.WHITEHEAD);
-         initController().playGame(KlondikeCreator.create(GameType.WHITEHEAD),
-                  KlondikeCreator.create(GameType.WHITEHEAD).getDeck(), true,7, 3);
+          startDefaultGameType(GameType.WHITEHEAD);
+          initController().playGame(KlondikeCreator.create(GameType.WHITEHEAD),
+                  KlondikeCreator.create(GameType.WHITEHEAD).getDeck(), true, 7, 3);
         } else if (args.length == 2) {
           KlondikeCreator.create(GameType.WHITEHEAD).startGame(KlondikeCreator.create(GameType
                   .WHITEHEAD).getDeck(), true, Integer.parseInt(args[1]), 3);
@@ -68,7 +68,7 @@ public class Klondike {
                   Integer.parseInt(args[1]), 3);
         } else if (args.length == 3) {
           KlondikeCreator.create(GameType.WHITEHEAD).startGame(KlondikeCreator.create(GameType
-                  .WHITEHEAD).getDeck(), true, Integer.parseInt(args[1]),
+                          .WHITEHEAD).getDeck(), true, Integer.parseInt(args[1]),
                   Integer.parseInt(args[2]));
           initController().playGame(KlondikeCreator.create(GameType.WHITEHEAD),
                   KlondikeCreator.create(GameType.WHITEHEAD).getDeck(), true,
@@ -82,11 +82,25 @@ public class Klondike {
     }
   }
 
+  /**
+   * Initializes the controller for the game.
+   *
+   * @return the controller for the game
+   */
   static KlondikeController initController() {
     Readable r = new InputStreamReader(System.in);
     Appendable a = System.out;
     KlondikeController controller = new KlondikeTextualController(r, a);
 
     return controller;
+  }
+
+  /**
+   * Creates and starts a default game of the given type.
+   *
+   * @param type the type of game to create
+   */
+  static void startDefaultGameType(GameType type) {
+    KlondikeCreator.create(type).startGame(KlondikeCreator.create(type).getDeck(), true, 7, 3);
   }
 }

@@ -68,4 +68,26 @@ public class MorePrivateModelTests {
 
     Assert.assertEquals(3, game.getPileHeight(1));
   }
+
+  @Test
+  public void testNumDrawCardChangesForLimited() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));    // pile 1
+    deck.add(getCard("A♠"));    // pile 2
+    deck.add(getCard("2♡"));
+    deck.add(getCard("A♡"));    // draws start here
+    deck.add(getCard("A♢"));
+    deck.add(getCard("2♣"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("2♢"));
+    LimitedDrawKlondike game = new LimitedDrawKlondike(0);
+
+    game.startGame(deck, false, 2, 3);
+
+    game.discardDraw();
+    game.discardDraw();
+    game.discardDraw();
+
+    Assert.assertEquals(2, game.getNumDraw());
+  }
 }

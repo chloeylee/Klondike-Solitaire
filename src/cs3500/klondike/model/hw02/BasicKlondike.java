@@ -37,21 +37,6 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
   }
 
   /**
-   * Constructs a new instance of the BasicKlondike class. This constructor assigns the special
-   * deck to the game rather than the typical set of 52
-   *
-   * @param deck the deck to be used for the game
-   */
-  public BasicKlondike(List<Card> deck) {
-    this.deck = deck;
-    this.numCards = this.deck.size();
-    this.drawPile = new ArrayList<>();
-    this.cascadePiles = new ArrayList<ArrayList<Card>>();
-    this.foundationPiles = new ArrayList<>();
-    this.numDraw = 3;
-  }
-
-  /**
    * Initializes the deck of cards for the Klondike game. This method populates the deck
    * with a standard set of playing cards, including Aces, numbered cards (2 to 10), Jacks,
    * Queens, and Kings for all four suits (Clubs, Diamonds, Hearts, and Spades).
@@ -79,7 +64,7 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
    */
   @Override
   public List<Card> getDeck() {
-    return this.deck;
+    return new ArrayList<>(this.deck);
   }
 
   /**
@@ -639,7 +624,11 @@ public class BasicKlondike implements cs3500.klondike.model.hw02.KlondikeModel {
   @Override
   public List<Card> getDrawCards() {
     if (gameStarted) {
-      return this.drawPile.subList(0, this.numDraw);
+      if (this.drawPile.isEmpty()) {
+        throw new IllegalStateException("Draw pile is empty");
+      } else {
+        return this.drawPile.subList(0, this.numDraw);
+      }
     }
     throw new IllegalStateException("Game not started");
   }

@@ -131,6 +131,10 @@ public class KlondikeTextualView implements TextualView {
     return this.printDrawCards() + "\n" + this.printFoundationPiles() + "\n" + this.printCascades();
   }
 
+  /**
+   * Renders the Klondike game.
+   * @throws IOException if the append fails
+   */
   @Override
   public void render() throws IOException {
     try {

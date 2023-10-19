@@ -27,7 +27,6 @@ public class PrivateModelTests {
     this.emptyDeck = new ArrayList<>();
     this.basicGame = new BasicKlondike();
     this.view = new KlondikeTextualView(mockModel);
-    this.specialGame = new BasicKlondike(emptyDeck);
   }
 
   @Test
