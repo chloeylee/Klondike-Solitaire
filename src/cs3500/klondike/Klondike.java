@@ -4,8 +4,6 @@ import java.io.InputStreamReader;
 
 import cs3500.klondike.controller.KlondikeController;
 import cs3500.klondike.controller.KlondikeTextualController;
-import cs3500.klondike.model.hw02.KlondikeModel;
-import cs3500.klondike.model.hw04.LimitedDrawKlondike;
 
 /**
  * represents all playable variants of klondike.
@@ -42,32 +40,45 @@ public class Klondike {
           }
         } catch (IllegalArgumentException e) {
           System.out.println("Invalid input(s) for custom basic game");
-          throw new IllegalArgumentException("Invalid input(s) for custom basic game");
+          // throw new IllegalArgumentException("Invalid input(s) for custom basic game");
         }
         break;
+
       case "limited":
         try {
           if (args.length == 2) {
             KlondikeCreator.create(GameType.LIMITED, checkValidInputType(args[1]))
                     .startGame(KlondikeCreator.create(GameType.LIMITED,
-                                    checkValidInputType(args[1])).getDeck(), true, 7,
-                            checkValidInputType(args[1]));
-            initController().playGame(KlondikeCreator.create(GameType.LIMITED),
-                    KlondikeCreator.create(GameType.LIMITED).getDeck(), true, 7, 3);
+                            checkValidInputType(args[1])).getDeck(), true, 7, 3);
+            initController().playGame(KlondikeCreator.create(GameType.LIMITED,
+                            checkValidInputType(args[1])),
+                    KlondikeCreator.create(GameType.LIMITED,
+                            checkValidInputType(args[1])).getDeck(),
+                    true, 7, 3);
+          } else if (args.length == 3) {
+            KlondikeCreator.create(GameType.LIMITED, checkValidInputType(args[1]))
+                    .startGame(KlondikeCreator.create(GameType.LIMITED,
+                                    checkValidInputType(args[1])).getDeck(), true,
+                            checkValidInputType(args[2]), 3);
+            initController().playGame(KlondikeCreator.create(GameType.LIMITED,
+                            checkValidInputType(args[1])), KlondikeCreator
+                            .create(GameType.LIMITED, checkValidInputType(args[1])).getDeck(),
+                    true, checkValidInputType(args[2]), 3);
           } else if (args.length == 4) {
-            KlondikeModel customLimited = new LimitedDrawKlondike(checkValidInputType(args[1]));
-            customLimited.startGame(KlondikeCreator.create(GameType.LIMITED).getDeck(), true,
-                    checkValidInputType(args[2]), checkValidInputType(args[3]));
-            initController().playGame(customLimited, KlondikeCreator.create(GameType.LIMITED)
-                            .getDeck(), true, checkValidInputType(args[2]),
-                    checkValidInputType(args[3]));
+            KlondikeCreator.create(GameType.LIMITED, checkValidInputType(args[1]))
+                    .startGame(KlondikeCreator.create(GameType.LIMITED).getDeck(), true,
+                            checkValidInputType(args[2]), checkValidInputType(args[3]));
+            initController().playGame(KlondikeCreator.create(GameType.LIMITED,
+                            checkValidInputType(args[1])), KlondikeCreator.create(GameType.LIMITED,
+                            checkValidInputType(args[1])).getDeck(),
+                    true, checkValidInputType(args[2]), checkValidInputType(args[3]));
           }
         } catch (IllegalArgumentException e) {
           System.out.println("Invalid input(s) for custom limited discard game");
-
-          throw new IllegalArgumentException("Invalid input(s) for custom limited game");
+          // throw new IllegalArgumentException("Invalid input(s) for custom limited game");
         }
         break;
+
       case "whitehead":
         try {
           if (args.length == 1) {
@@ -87,11 +98,12 @@ public class Klondike {
           }
         } catch (IllegalArgumentException e) {
           System.out.println("Invalid input(s) for custom whitehead game");
-          throw new IllegalArgumentException("Invalid input(s) for custom whitehead game");
+          // throw new IllegalArgumentException("Invalid input(s) for custom whitehead game");
         }
-
         break;
+
       default:
+        System.out.println("Invalid game type");
         throw new IllegalArgumentException("Invalid game type");
     }
   }
@@ -121,7 +133,8 @@ public class Klondike {
 
   /**
    * creates and starts a game when there are two arguments given.
-   * @param type the type of game to create
+   *
+   * @param type  the type of game to create
    * @param piles the number of cascade piles to create
    */
   static void startGameWithTwoArguments(GameType type, String piles) {
@@ -131,7 +144,8 @@ public class Klondike {
 
   /**
    * creates and starts a game when there are three arguments given.
-   * @param type the type of game to create
+   *
+   * @param type  the type of game to create
    * @param piles the number of cascade piles to create
    * @param draws the number of draw cards in the draw pile
    */

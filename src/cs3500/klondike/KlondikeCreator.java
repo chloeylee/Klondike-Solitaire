@@ -1,5 +1,7 @@
 package cs3500.klondike;
 
+import java.util.Objects;
+
 import cs3500.klondike.model.hw02.BasicKlondike;
 import cs3500.klondike.model.hw02.KlondikeModel;
 import cs3500.klondike.model.hw04.LimitedDrawKlondike;
@@ -20,7 +22,7 @@ public class KlondikeCreator {
       case BASIC:
         return new BasicKlondike();
       case LIMITED:
-        return new LimitedDrawKlondike(2);
+        throw new IllegalArgumentException("Invalid game type for this constructor");
       case WHITEHEAD:
         return new WhiteheadKlondike();
       default:
@@ -35,15 +37,9 @@ public class KlondikeCreator {
    * @return the created Klondike game
    */
   public static KlondikeModel create(GameType type, int numTimesRedrawAllowed) {
-    switch (type) {
-      case BASIC:
-        return new BasicKlondike();
-      case LIMITED:
-        return new LimitedDrawKlondike(numTimesRedrawAllowed);
-      case WHITEHEAD:
-        return new WhiteheadKlondike();
-      default:
-        throw new IllegalArgumentException("Invalid game type");
+    if (Objects.requireNonNull(type) == GameType.LIMITED) {
+      return new LimitedDrawKlondike(numTimesRedrawAllowed);
     }
+    throw new IllegalArgumentException("Invalid game type for this constructor");
   }
 }

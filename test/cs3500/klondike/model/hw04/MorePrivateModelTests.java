@@ -130,6 +130,33 @@ public class MorePrivateModelTests {
   }
 
   @Test
+  public void testDiscardAllDrawsLimited() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));    // pile 1
+    deck.add(getCard("A♠"));    // pile 2
+    deck.add(getCard("2♡"));
+    deck.add(getCard("A♡"));    // draws start here
+    deck.add(getCard("A♢"));
+    deck.add(getCard("2♣"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("2♢"));
+
+    LimitedDrawKlondike game = new LimitedDrawKlondike(1);
+    game.startGame(deck, false, 2, 3);
+
+    game.discardDraw(); // full cycle 1
+    game.discardDraw();
+    game.discardDraw();
+    game.discardDraw();
+    game.discardDraw();
+    game.discardDraw(); // full cycle 2
+    game.discardDraw();
+    game.discardDraw();
+
+    Assert.assertEquals(2, game.getNumDraw());
+  }
+
+  @Test
   public void testNumDrawCardChangesForLimited() {
     List<Card> deck = new ArrayList<>();
     deck.add(getCard("A♣"));    // pile 1
