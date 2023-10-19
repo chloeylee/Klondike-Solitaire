@@ -373,10 +373,14 @@ public class BasicKlondike implements KlondikeModel {
     Card moving = this.drawPile.get(0);
     List<Card> foundation = this.foundationPiles.get(foundationPile);
 
-    if (this.validMoveToFoundation(moving, foundation) || (foundation.isEmpty()
-            && moving.getRank().contains("A"))) {
+    if (this.validMoveToFoundation(moving, foundation)) {
       foundation.add(moving);
       this.drawPile.remove(moving);
+      if (!deck.isEmpty()) {
+        deck.get(0).turnCardUp();
+        this.drawPile.add(deck.get(0));
+        deck.remove(0);
+      }
     } else {
       throw new IllegalStateException("This is an invalid move");
     }

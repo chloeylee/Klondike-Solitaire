@@ -81,7 +81,7 @@ public class WhiteheadKlondike extends AbstractKlondike {
     if (numDraw < 1 || numDraw > deck.size()) {
       throw new IllegalArgumentException("Invalid numDraw value");
     }
-    this.deck = new ArrayList<Card>(deck);
+    this.deck = new ArrayList<>(deck);
     if (shuffle) {
       Collections.shuffle(this.deck);
     }
@@ -261,27 +261,6 @@ public class WhiteheadKlondike extends AbstractKlondike {
       }
     } else {
       throw new IllegalStateException("This is an invalid move");
-    }
-  }
-
-  /**
-   * Checks if moving a card to a foundation pile is a valid move in the Klondike game.
-   * For the move to be valid, the following conditions must be met:
-   *
-   * <p>The rank of the card to be moved must be one greater than the rank of the card at the top
-   * of the foundation pile. The suit of the card to be moved must be the same as the suit of the
-   * card at the top of the foundation pile.
-   *
-   * @param card       The card to be moved to the foundation pile.
-   * @param foundation The foundation pile where the card is to be moved.
-   * @return {@code true} if the move is valid, {@code false} otherwise.
-   */
-  boolean validMoveToFoundation(Card card, List<Card> foundation) {
-    if (!foundation.isEmpty()) {
-      return card.rankHigher(foundation.get(foundation.size() - 1))
-              && card.getSuit().equals(foundation.get(foundation.size() - 1).getSuit());
-    } else {
-      return card.toString().contains("A");
     }
   }
 }

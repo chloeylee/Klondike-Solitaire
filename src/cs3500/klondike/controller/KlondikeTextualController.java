@@ -99,11 +99,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                   }
                 } catch (IllegalStateException e) {
                   // Handle invalid move
-                  try {
-                    this.a.append("Invalid move. Play again.\n");
-                  } catch (IOException io) {
-                    throw new RuntimeException("Failed to append error message");
-                  }
+                  invalidInputTryCatch();
                   try {
                     view.render();
                   } catch (IOException io) {
@@ -111,11 +107,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                   }
                 } catch (IllegalArgumentException e) {
                   // Handle invalid arguments
-                  try {
-                    this.a.append("Invalid move. Play again. Please enter valid pile values.\n");
-                  } catch (IOException io) {
-                    throw new RuntimeException("Failed to append error message");
-                  }
+                  invalidInputTryCatch();
                   try {
                     view.render();
                   } catch (IOException io) {
@@ -140,11 +132,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                 throw new RuntimeException("Failed to render game");
               }
             } catch (IllegalStateException e) {
-              try {
-                this.a.append("Invalid move. Play again.\n");
-              } catch (IOException io) {
-                throw new RuntimeException("Failed to append error message");
-              }
+              invalidInputTryCatch();
               try {
                 view.render();
               } catch (IOException io) {
@@ -152,11 +140,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
               }
             } catch (IllegalArgumentException e) {
               // Handle invalid arguments
-              try {
-                this.a.append("Invalid move. Play again. Please enter valid pile values.\n");
-              } catch (IOException io) {
-                throw new RuntimeException("Failed to append error message");
-              }
+              invalidInputTryCatch();
               try {
                 view.render();
               } catch (IOException io) {
@@ -180,11 +164,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                   throw new RuntimeException("Failed to render game");
                 }
               } catch (IllegalStateException e) {
-                try {
-                  this.a.append("Invalid move. Play again.\n");
-                } catch (IOException io) {
-                  throw new RuntimeException("Failed to append error message");
-                }
+                invalidInputTryCatch();
                 try {
                   view.render();
                 } catch (IOException io) {
@@ -192,11 +172,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                 }
               } catch (IllegalArgumentException e) {
                 // Handle invalid arguments
-                try {
-                  this.a.append("Invalid move. Play again. Please enter valid pile values.\n");
-                } catch (IOException io) {
-                  throw new RuntimeException("Failed to append error message");
-                }
+                invalidInputTryCatch();
                 try {
                   view.render();
                 } catch (IOException io) {
@@ -219,11 +195,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
                 throw new RuntimeException("Failed to render game");
               }
             } catch (IllegalStateException e) {
-              try {
-                this.a.append("Invalid move. Play again.\n");
-              } catch (IOException io) {
-                throw new RuntimeException("Failed to append error message");
-              }
+              invalidInputTryCatch();
               try {
                 view.render();
               } catch (IOException io) {
@@ -242,11 +214,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
               throw new RuntimeException("Failed to render game");
             }
           } catch (IllegalStateException e) {
-            try {
-              this.a.append("Invalid move. Play again. \n");
-            } catch (IOException io) {
-              throw new RuntimeException("Failed to append error message");
-            }
+            invalidInputTryCatch();
             try {
               view.render();
             } catch (IOException io) {
@@ -259,32 +227,28 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
         case "Q":
           try {
             this.didPlayerQuit = true;
-            this.a.append("Game quit!\nState of game when quit:\n");
+            quitGameMessageTryCatch();
             try {
               view.render();
             } catch (IOException io) {
               throw new RuntimeException("Failed to render game");
             }
             this.a.append("\nScore: ").append(String.valueOf(model.getScore()));
-
           } catch (IOException io) {
             throw new IllegalArgumentException("Failed to quit game");
           }
           break;
 
         default:
-          try {
-            this.a.append("Invalid Move. Play again.\n");
-            // view.render();
-          } catch (IOException io) {
-            throw new IllegalStateException("Failed to append error message");
-          }
+          invalidInputTryCatch();
       }
     }
     if (model.isGameOver()) {
       if (didPlayerWin(model)) {
         try {
-          this.a.append("You win!\nScore: ").append(String.valueOf(model.getScore()));
+          this.a.append("You win!");
+          newLine();
+          this.a.append("Score: ").append(String.valueOf(model.getScore()));
         } catch (IOException io) {
           throw new IllegalStateException("Failed to append win message");
         }
@@ -316,4 +280,45 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
     }
     return true;
   }
+
+  /**
+   * Appends the invalid input message to the appendable.
+   * @throws IllegalStateException if the append fails
+   */
+  private void invalidInputTryCatch() {
+    try {
+      a.append("Invalid move. Play again.");
+      newLine();
+    } catch (IOException s) {
+      throw new IllegalStateException("Could not append error message");
+    }
+  }
+
+  /**
+   * appends a new line to the appendable.
+   * @throws IllegalStateException if the append fails
+   */
+  private void newLine() {
+    try {
+      a.append("\n");
+    } catch (IOException e) {
+      throw new RuntimeException("Could not append new line");
+    }
+  }
+
+  /**
+   * Appends the quit game message to the appendable.
+   * @throws IllegalStateException if the append fails
+   */
+  private void quitGameMessageTryCatch() {
+    try {
+      a.append("Game quit!");
+      newLine();
+      a.append("State of game when quit:");
+      newLine();
+    } catch (IOException s) {
+      throw new IllegalStateException("Could not append quit message");
+    }
+  }
+
 }

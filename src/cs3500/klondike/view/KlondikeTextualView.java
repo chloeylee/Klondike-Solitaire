@@ -94,13 +94,7 @@ public class KlondikeTextualView implements TextualView {
     String result = "";
     StringBuilder sb = new StringBuilder();
 
-    int rowMax = 0;
     for (int row = 0; row < model.getNumRows(); row++) {
-      if (rowMax < model.getPileHeight(row)) {
-        rowMax = model.getPileHeight(row);
-      }
-    }
-    for (int row = 0; row < rowMax; row++) {
       for (int col = 0; col < model.getNumPiles(); col++) {
         if (row == 0 && 0 == model.getPileHeight(col)) {
           sb.append(" X  ");

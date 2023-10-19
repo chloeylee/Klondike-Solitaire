@@ -8,9 +8,13 @@ Changes Made to Klondike Pt 1.
 
 NOTE:
 Cascade piles are printed in a manner so that it is rotated 90º counter-clockwise and flipped
-vertically. My apologies.
+vertically. My apologies. (FIXED)
 
 
 Changes Made to Klondike Pt 2.
-1. made a ton of helpers for the controller for any repeated code (i.e. throwing exceptions)
-2. deleted a basic klondike constructor that was never used (took in a deck)
+1. made helper methods for the controller for any repeated code (i.e. throwing exceptions,
+   common error messages, appending a new line)
+2. deleted a basic klondike constructor that was never used (took in a deck ??)
+3. fixed the printing of my cascade piles so that they are printed in the correct orientation
+   (but with slightly incorrect spacing)
+4. added more tests to PrivateModelTests to test the controller more
