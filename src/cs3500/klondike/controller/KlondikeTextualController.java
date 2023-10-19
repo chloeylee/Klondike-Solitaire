@@ -82,6 +82,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
       String input = scanner.next();
       switch (input) {
         case "mpp":
+
           // Extract move parameters
           if (scanner.hasNextInt()) {
             int src = scanner.nextInt() - 1;
@@ -184,24 +185,28 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
           break;
 
         case "mdf":
-          if (scanner.hasNextInt()) {
-            int foundation = scanner.nextInt() - 1;
-            // Try to move a draw card to foundation
-            try {
-              model.moveDrawToFoundation(foundation);
+          try {
+            if (scanner.hasNextInt()) {
+              int foundation = scanner.nextInt() - 1;
+              // Try to move a draw card to foundation
               try {
-                view.render();
-              } catch (IOException io) {
-                throw new RuntimeException("Failed to render game");
-              }
-            } catch (IllegalStateException e) {
-              invalidInputTryCatch();
-              try {
-                view.render();
-              } catch (IOException io) {
-                throw new RuntimeException("Failed to render game");
+                model.moveDrawToFoundation(foundation);
+                try {
+                  view.render();
+                } catch (IOException io) {
+                  throw new RuntimeException("Failed to render game");
+                }
+              } catch (IllegalStateException e) {
+                invalidInputTryCatch();
+                try {
+                  view.render();
+                } catch (IOException io) {
+                  throw new RuntimeException("Failed to render game");
+                }
               }
             }
+          } catch (IllegalStateException e) {
+            invalidInputTryCatch();
           }
           break;
 
@@ -283,6 +288,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
 
   /**
    * Appends the invalid input message to the appendable.
+   *
    * @throws IllegalStateException if the append fails
    */
   private void invalidInputTryCatch() {
@@ -296,6 +302,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
 
   /**
    * appends a new line to the appendable.
+   *
    * @throws IllegalStateException if the append fails
    */
   private void newLine() {
@@ -308,6 +315,7 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
 
   /**
    * Appends the quit game message to the appendable.
+   *
    * @throws IllegalStateException if the append fails
    */
   private void quitGameMessageTryCatch() {

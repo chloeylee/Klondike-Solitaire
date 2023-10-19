@@ -105,14 +105,14 @@ public abstract class AbstractKlondike implements KlondikeModel {
       throw new IllegalStateException("Game has already started");
     }
     if (deck == null || deck.contains(null) || deck.isEmpty()) {
-      throw new IllegalArgumentException("Deck cannot be null");
+      throw new IllegalArgumentException("Deck cannot be null or empty");
     }
     for (Card card : deck) {
       if (card == null) {
         throw new IllegalArgumentException("Card cannot be null");
       }
       if (card.getRank() == null || card.getSuit() == null) {
-        throw new IllegalArgumentException("Card value cannot be null");
+        throw new IllegalArgumentException("Either of card value cannot be null");
       }
     }
 
@@ -364,17 +364,22 @@ public abstract class AbstractKlondike implements KlondikeModel {
     }
     if (this.drawPile.isEmpty()) {
       throw new IllegalStateException("Draw pile is empty");
-    }
-
-    Card moving = this.drawPile.get(0);
-    List<Card> foundation = this.foundationPiles.get(foundationPile);
-
-    if (this.validMoveToFoundation(moving, foundation) || (foundation.isEmpty()
-            && moving.getRank().contains("A"))) {
-      foundation.add(moving);
-      this.drawPile.remove(moving);
     } else {
-      throw new IllegalStateException("This is an invalid move");
+      Card moving = this.drawPile.get(0);
+      List<Card> foundation = this.foundationPiles.get(foundationPile);
+
+      if (this.validMoveToFoundation(moving, foundation) || (foundation.isEmpty()
+              && moving.getRank().contains("A"))) {
+        foundation.add(moving);
+        this.drawPile.remove(moving);
+        if (!this.deck.isEmpty()) {
+          this.deck.get(0).turnCardUp();
+          this.drawPile.add(this.deck.get(0));
+          this.deck.remove(0);
+        }
+      } else {
+        throw new IllegalStateException("This is an invalid move");
+      }
     }
   }
 

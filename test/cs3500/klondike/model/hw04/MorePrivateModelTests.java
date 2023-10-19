@@ -104,6 +104,32 @@ public class MorePrivateModelTests {
   }
 
   @Test
+  public void testValidMoveDrawToFoundationWhitehead() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));    // pile 1
+    deck.add(getCard("A♠"));    // pile 2
+    deck.add(getCard("2♡"));
+    deck.add(getCard("A♡"));    // draws start here
+    deck.add(getCard("A♢"));
+    deck.add(getCard("2♣"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("2♢"));
+    WhiteheadKlondike game = new WhiteheadKlondike();
+
+    game.startGame(deck, false, 2, 3);
+
+    game.moveDrawToFoundation(0);
+
+    List<Card> expected = new ArrayList<>();
+    expected.add(getCard("A♢"));
+    expected.add(getCard("2♣"));
+    expected.add(getCard("2♠"));
+
+
+    Assert.assertEquals(expected, game.getDrawCards());
+  }
+
+  @Test
   public void testNumDrawCardChangesForLimited() {
     List<Card> deck = new ArrayList<>();
     deck.add(getCard("A♣"));    // pile 1
@@ -124,4 +150,5 @@ public class MorePrivateModelTests {
 
     Assert.assertEquals(2, game.getNumDraw());
   }
+
 }

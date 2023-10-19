@@ -40,7 +40,7 @@ public class PrivateModelTests {
     Card aceSpade = new CardBuilder(Rank.ACE, Suit.SPADE, true);
     Card twoHearts = new CardBuilder(Rank.TWO, Suit.HEART, true);
 
-    Assert.assertTrue(this.basicGame.validCascadeMove(twoHearts, aceSpade));
+    Assert.assertTrue(this.basicGame.validCascadeMove(aceSpade, twoHearts));
   }
 
   @Test

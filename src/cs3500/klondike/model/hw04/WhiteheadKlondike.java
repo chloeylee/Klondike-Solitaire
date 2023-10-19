@@ -249,9 +249,9 @@ public class WhiteheadKlondike extends AbstractKlondike {
       throw new IllegalStateException("Draw pile is empty");
     }
 
-    Card draw = drawPile.get(0);
+    Card draw = this.getDrawCards().get(0);
     List<Card> endPile = this.cascadePiles.get(destPile);
-    if (this.validCascadeMove(drawPile, endPile.get(endPile.size() - 1))) {
+    if (this.validCascadeMove(this.getDrawCards(), endPile.get(endPile.size() - 1))) {
       endPile.add(draw);
       this.drawPile.remove(draw);
       if (!deck.isEmpty()) {
