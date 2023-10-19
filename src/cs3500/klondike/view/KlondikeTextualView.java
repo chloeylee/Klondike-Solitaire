@@ -139,6 +139,7 @@ public class KlondikeTextualView implements TextualView {
   public void render() throws IOException {
     try {
       ap.append(this.toString());
+      ap.append("\n");
     } catch (IOException e) {
       throw new IOException("Render failed");
     }

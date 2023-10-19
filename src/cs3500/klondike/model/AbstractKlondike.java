@@ -1,33 +1,35 @@
-package cs3500.klondike.model.hw02;
+package cs3500.klondike.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import cs3500.klondike.GameType;
+import cs3500.klondike.model.hw02.Card;
+import cs3500.klondike.model.hw02.CardBuilder;
+import cs3500.klondike.model.hw02.KlondikeModel;
+import cs3500.klondike.model.hw02.Rank;
+import cs3500.klondike.model.hw02.Suit;
 
 /**
- * Represents a basic game of Klondike Solitaire. This class implements the KlondikeModel
- * interface and provides methods for starting a game, moving cards, and checking the state
- * of the game. This class is used to play a game of Klondike Solitaire.
+ * Represents an abstract class for Klondike Solitaire game.
+ * stores repetitive code and fields.
  */
-public class BasicKlondike implements KlondikeModel {
-
-  private List<Card> deck = new ArrayList<>();
-  private final int numCards;
-  private final List<Card> drawPile;
-  private final ArrayList<ArrayList<Card>> cascadePiles;
-  private final List<List<Card>> foundationPiles;
-  private int numDraw;
-  private boolean gameStarted;
-  private GameType gameType;
+public abstract class AbstractKlondike implements KlondikeModel {
+  protected List<Card> deck = new ArrayList<>();
+  protected final int numCards;
+  protected final List<Card> drawPile;
+  protected final ArrayList<ArrayList<Card>> cascadePiles;
+  protected final List<List<Card>> foundationPiles;
+  protected int numDraw;
+  protected boolean gameStarted;
+  protected GameType gameType;
 
   /**
-   * Constructs a new instance of the BasicKlondike class. This constructor initializes the
-   * game's data structures, such as the deck, draw pile, cascade piles, foundation piles, and
-   * other game-related properties to their default values. The game is initially not started.
+   * Constructs a {@code AbstractKlondike} object.
+   * stores repetitive field initialization.
    */
-  public BasicKlondike() {
+  public AbstractKlondike() {
     this.deck = this.initDeck();
     this.numCards = this.deck.size();
     this.drawPile = new ArrayList<>();
@@ -102,14 +104,8 @@ public class BasicKlondike implements KlondikeModel {
     if (gameStarted) {
       throw new IllegalStateException("Game has already started");
     }
-    if (deck == null) {
+    if (deck == null || deck.contains(null) || deck.isEmpty()) {
       throw new IllegalArgumentException("Deck cannot be null");
-    }
-    if (deck.contains(null)) {
-      throw new IllegalArgumentException("Deck cannot be null");
-    }
-    if (deck.isEmpty()) {
-      throw new IllegalArgumentException("Deck cannot be empty");
     }
     for (Card card : deck) {
       if (card == null) {
@@ -146,7 +142,7 @@ public class BasicKlondike implements KlondikeModel {
       throw new IllegalArgumentException("Invalid ace cards");
     }
     if (deck.size() % numAces != 0) {
-      throw new IllegalArgumentException("Invalid ace cards");
+      throw new IllegalArgumentException("Suit sizes are not all the same");
     }
     this.cascadePiles.clear();
 
@@ -177,6 +173,7 @@ public class BasicKlondike implements KlondikeModel {
       this.drawPile.add(card);
     }
     this.numDraw = numDraw;
+
     this.gameStarted = true;
   }
 
@@ -281,7 +278,7 @@ public class BasicKlondike implements KlondikeModel {
     Card draw = drawPile.get(0);
     List<Card> endPile = this.cascadePiles.get(destPile);
     if (endPile.isEmpty()) {
-      if (draw.getRank().equals("K")) {
+      if (draw.getRank().contains("K")) {
         endPile.add(draw);
         this.drawPile.remove(draw);
         if (!deck.isEmpty()) {
@@ -484,14 +481,15 @@ public class BasicKlondike implements KlondikeModel {
   @Override
   public boolean isGameOver() {
     if (gameStarted) {
-      if (this.deck.isEmpty() && this.drawPile.isEmpty()) {
+      if (this.drawPile.isEmpty()) {
         return true;
+      } else {
+        int score = 0;
+        for (List<Card> foundationPile : foundationPiles) {
+          score = foundationPile.size() + score;
+        }
+        return score == this.numCards;
       }
-      int score = 0;
-      for (int i = 0; i < foundationPiles.size(); i++) {
-        score = foundationPiles.get(i).size() + score;
-      }
-      return score == this.numCards;
     }
     throw new IllegalStateException("Game not started");
   }

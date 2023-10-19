@@ -62,7 +62,7 @@ public class LimitedDrawKlondike extends AbstractKlondike {
 
     if (cardDiscardValue >= this.numTimesRedrawAllowed) {
       this.drawPile.remove(card);
-      this.cardDiscardMap.put(card, cardDiscardValue++);
+
       if (!this.deck.isEmpty()) {
         this.deck.get(0).turnCardUp();
         this.drawPile.add(this.deck.get(0));
@@ -74,7 +74,8 @@ public class LimitedDrawKlondike extends AbstractKlondike {
       this.drawPile.add(this.deck.get(0));
       this.drawPile.get(drawPile.size() - 1).turnCardUp();
       this.deck.remove(0);
-      this.cardDiscardMap.put(card, cardDiscardValue++);
+      cardDiscardValue++;
     }
+    this.cardDiscardMap.put(card, cardDiscardValue);
   }
 }
