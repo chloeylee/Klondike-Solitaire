@@ -246,6 +246,11 @@ public class KlondikeTextualController implements cs3500.klondike.controller.Klo
 
         default:
           invalidInputTryCatch();
+          try {
+            view.render();
+          } catch (IOException io) {
+            throw new RuntimeException("Failed to render game");
+          }
       }
     }
     if (model.isGameOver()) {

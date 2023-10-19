@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import cs3500.klondike.GameType;
+import cs3500.klondike.KlondikeCreator;
 import cs3500.klondike.model.hw02.BasicKlondike;
 import cs3500.klondike.model.hw02.Card;
 import cs3500.klondike.model.hw02.KlondikeModel;
@@ -46,7 +48,7 @@ public class MorePrivateModelTests {
     deck.add(getCard("3♣"));
     deck.add(getCard("3♠"));
 
-    WhiteheadKlondike game = new WhiteheadKlondike();
+    KlondikeModel game = KlondikeCreator.create(GameType.WHITEHEAD);
 
     game.startGame(deck, false, 2, 1);
     game.movePile(0, 1, 1);
@@ -61,7 +63,7 @@ public class MorePrivateModelTests {
     deck.add(getCard("A♠"));
     deck.add(getCard("A♡"));
     deck.add(getCard("A♢"));
-    WhiteheadKlondike game = new WhiteheadKlondike();
+    KlondikeModel game = KlondikeCreator.create(GameType.WHITEHEAD);
 
     game.startGame(deck, false, 2, 1);
 
@@ -154,6 +156,17 @@ public class MorePrivateModelTests {
     game.discardDraw();
 
     Assert.assertEquals(2, game.getNumDraw());
+  }
+
+  @Test
+  public void testInvalidSuitLengthsDeck() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♡"));
+    deck.add(getCard("2♡"));
+    deck.add(getCard("A♢"));
+
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            new WhiteheadKlondike().startGame(deck, false, 2, 1));
   }
 
   @Test
