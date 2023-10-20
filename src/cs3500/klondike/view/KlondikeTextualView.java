@@ -57,7 +57,7 @@ public class KlondikeTextualView implements TextualView {
    * @return A string representation of the score.
    */
   public String printScore() {
-    return "Score: " + model.getScore() + "/n";
+    return "Score: " + model.getScore();
   }
 
   /**

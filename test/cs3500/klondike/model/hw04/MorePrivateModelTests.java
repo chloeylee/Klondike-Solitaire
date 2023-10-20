@@ -132,6 +132,31 @@ public class MorePrivateModelTests {
   }
 
   @Test
+  public void testMoveDrawAndDiscardDrawLimitedGame() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));    // pile 1
+    deck.add(getCard("A♠"));    // pile 2
+    deck.add(getCard("2♣"));
+    deck.add(getCard("A♡"));    // draws start here
+    deck.add(getCard("A♢"));
+    deck.add(getCard("2♡"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("2♢"));
+    KlondikeModel game = KlondikeCreator.create(GameType.LIMITED, 0);
+    game.startGame(deck, false, 2, 3);
+
+    game.moveDraw(1);
+    game.discardDraw();
+    game.discardDraw();
+
+    List<Card> expected = new ArrayList<>();
+    expected.add(getCard("2♠"));
+    expected.add(getCard("2♢"));
+
+    Assert.assertEquals(expected, game.getDrawCards());
+  }
+
+  @Test
   public void testDiscardAllDrawsLimited() {
     List<Card> deck = new ArrayList<>();
     deck.add(getCard("A♣"));    // pile 1
@@ -157,6 +182,8 @@ public class MorePrivateModelTests {
 
     Assert.assertEquals(2, game.getNumDraw());
   }
+
+
 
   @Test
   public void testInvalidSuitLengthsDeck() {
@@ -189,6 +216,44 @@ public class MorePrivateModelTests {
     game.discardDraw();
 
     Assert.assertEquals(2, game.getNumDraw());
+  }
+
+  @Test
+  public void testKlondikeCreatorCreatesBasic() {
+    Class<? extends KlondikeModel> basicKlondike = cs3500.klondike.model.hw02.BasicKlondike.class;
+    Assert.assertEquals(basicKlondike, KlondikeCreator.create(GameType.BASIC).getClass());
+  }
+
+  @Test
+  public void testKlondikeCreatorCreatesWhitehead() {
+    Class<? extends KlondikeModel> whiteHeadKlondike = cs3500.klondike.model.hw04
+            .WhiteheadKlondike.class;
+    Assert.assertEquals(whiteHeadKlondike, KlondikeCreator.create(GameType.WHITEHEAD).getClass());
+  }
+
+  @Test
+  public void testKlondikeCreatorCreatesLimited() {
+    Class<? extends KlondikeModel> limitedDrawKlondike = cs3500.klondike.model.hw04
+            .LimitedDrawKlondike.class;
+    Assert.assertEquals(limitedDrawKlondike, KlondikeCreator.create(GameType.LIMITED, 2)
+            .getClass());
+  }
+
+  @Test
+  public void testInvalidMultipleCardMPPWhitehead() {
+    List<Card> deck = new ArrayList<>();
+    deck.add(getCard("A♣"));
+    deck.add(getCard("A♠"));
+    deck.add(getCard("2♣"));
+    deck.add(getCard("2♠"));
+    deck.add(getCard("3♣"));
+    deck.add(getCard("3♠"));
+
+    KlondikeModel game = KlondikeCreator.create(GameType.WHITEHEAD);
+
+    game.startGame(deck, false, 2, 1);
+    Assert.assertThrows(IllegalStateException.class, () ->
+            game.movePile(1, 2, 0));
   }
 
 }
